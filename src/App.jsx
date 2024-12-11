@@ -1,6 +1,7 @@
 import React, { useEffect, useRef } from "react";
 import { motion } from "framer-motion";
 import "./App.css";
+import { Analytics } from "@vercel/analytics/react";
 
 const PlayICon = () => (
   <svg
@@ -37,31 +38,21 @@ function App() {
     }
   };
 
+  useEffect(() => {
+    let c = document.querySelector("body");
+    c.click();
+    const a = videoRef.current;
+    const playVid = async () => {
+      a.play().then(() => {
+        buttonRef.current.style.display = "none";
+      });
+    };
+    playVid();
+  }, []);
+
   return (
     <>
-      <motion.div
-        className="bg"
-        style={{
-          height: "100vh",
-          weight: "100vw",
-          zIndex: -1,
-        }}
-        initial={{
-          // backgroundColor: "#222084",
-          backgroundColor: "#cfcee3",
-          filter: "blur(10px)",
-        }}
-        animate={{
-          backgroundColor: "rgb(188 187 216)",
-          filter: ["blur(4px)", "blur(0px)"],
-        }}
-        transition={{
-          type: "ease",
-          ease: "easeIn",
-          duration: 0.7,
-        }}
-      ></motion.div>
-
+      <Analytics />
       <motion.div className="main-wrapper">
         <motion.div className="videoWrapper">
           <motion.div
@@ -71,6 +62,8 @@ function App() {
           >
             <video
               className="videoPlayer"
+              loop
+              muted
               ref={videoRef} // Reference to the video
               src="https://res.cloudinary.com/dhdiayxo7/video/upload/f_auto:video,q_auto/vwkkodjkjdbz2cpu3fnh"
             />
